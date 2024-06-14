@@ -23,24 +23,35 @@ function connect(){
     webSocket.onclose = (event) => {
         console.log("websocket connection closed");
         webSocket = null;
+        if (keepAliveIntervalId) {
+            clearInterval(keepAliveIntervalId);
+            keepAliveIntervalId = null;
+        }
+    };
+
+    webSocket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+        webSocket.close();
     };
 }
 
 function disconnect(){
     if(webSocket == null){
+        console.log("disconnecting");
         return;
     }
     webSocket.close();
 }
 
-function keepAlive(){
-    const keepAliveIntervalId = setInterval(
+
+function keepAlive() {
+    keepAliveIntervalId = setInterval(
         () => {
-            if (webSocket){
-                //webSocket.send(`keepalive`);
+            if (webSocket && webSocket.readyState === WebSocket.OPEN) {
                 webSocket.send(JSON.stringify(currData));
-            }else{
+            } else {
                 clearInterval(keepAliveIntervalId);
+                keepAliveIntervalId = null;
             }
         },
         1000
@@ -48,6 +59,15 @@ function keepAlive(){
 }
 
 connect();
+
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+        console.log("Page is visible again");
+        if (!webSocket || webSocket.readyState === WebSocket.CLOSED) {
+            connect();
+        }
+    }
+});
 
 let waitForPlayerBarInterval = setInterval(() => {
 
@@ -64,12 +84,10 @@ function getInfo() {
     let getInfoInterval = setInterval(() => {
 
         if (ytmusicPlayerBar.querySelector(".title").innerText) {
-            //console.log(ytmusicPlayerBar.querySelector(".title").innerText)
             let title = ""
             if(ytmusicPlayerBar.querySelector(".title").innerText){
                 title = ytmusicPlayerBar.querySelector(".title").innerText
             }
-            //console.log(ytmusicPlayerBar.querySelectorAll("a")[0].innerText)
             let artist = ""
             if(ytmusicPlayerBar.querySelectorAll("a")[0].innerText){
                 artist = ytmusicPlayerBar.querySelectorAll("a")[0].innerText
