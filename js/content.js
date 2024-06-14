@@ -1,5 +1,3 @@
-
-
 console.log("hi");
 
 let ytmusicPlayerBar
@@ -7,12 +5,21 @@ let webSocket = null;
 let currData = {};
 let currSong = ``;
 
+let keepAliveIntervalId = null;
+
+let retryTimeoutId = null;
+const retryInterval = 5000; // Retry every 5 seconds
+
 function connect(){
     webSocket = new WebSocket('ws://localhost:3000');
     
     webSocket.onopen = (event) => {
         console.log("websocket open");
         keepAlive();
+        if (retryTimeoutId) {
+            clearTimeout(retryTimeoutId);
+            retryTimeoutId = null;
+        }
     
     };
 
@@ -27,6 +34,7 @@ function connect(){
             clearInterval(keepAliveIntervalId);
             keepAliveIntervalId = null;
         }
+        scheduleReconnect();
     };
 
     webSocket.onerror = (error) => {
@@ -56,6 +64,15 @@ function keepAlive() {
         },
         1000
     );
+}
+
+function scheduleReconnect() {
+    if (!retryTimeoutId) {
+        retryTimeoutId = setTimeout(() => {
+            console.log("Attempting to reconnect...");
+            connect();
+        }, retryInterval);
+    }
 }
 
 connect();
@@ -120,6 +137,7 @@ function getInfo() {
             currSong = info.song;
             currData = info;
             console.log(info)
+            //console.log("changes working?")
 
         } 
         else {
