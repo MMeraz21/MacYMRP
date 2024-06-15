@@ -11,7 +11,7 @@ let retryTimeoutId = null;
 const retryInterval = 5000; // Retry every 5 seconds
 
 function connect(){
-    webSocket = new WebSocket('ws://localhost:3000');
+    webSocket = new WebSocket('ws://localhost:3030');
     
     webSocket.onopen = (event) => {
         console.log("websocket open");

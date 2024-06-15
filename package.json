@@ -5,6 +5,9 @@
     "private": true,
     "homepage": "",
     "devDependencies": {
+        "electron": "^31.0.1",
+        "electron-builder": "^24.13.3",
+        "electron-is-dev": "^3.0.1",
         "svgexport": "^0.2.8"
     },
     "dependencies": {
