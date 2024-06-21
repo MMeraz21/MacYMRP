@@ -16,12 +16,14 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "concurrently": "^8.2.2",
     "easy-presence": "^1.2.0-oops1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
+    "wait-on": "^7.2.0",
     "web-vitals": "^2.1.4",
-    "ws": "^8.17.0"
+    "ws": "^8.17.1"
   },
   "scripts": {
     "start": "BROWSER='arc' react-scripts start",
@@ -29,7 +31,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron": "electron .",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && npm run electron\"" 
   },
   "eslintConfig": {
     "extends": [
@@ -50,7 +53,7 @@
     ]
   },
   "devDependencies": {
-    "electron": "^31.0.1",
+    "electron": "^31.0.2",
     "electron-builder": "^24.13.3",
     "electron-is-dev": "^3.0.1"
   }

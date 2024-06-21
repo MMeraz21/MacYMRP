@@ -14,7 +14,8 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
-      nodeIntegration: true,
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
     },
   });
 
@@ -35,6 +36,7 @@ function createWindow() {
 
     ws.on('message', function message(data) {
       console.log('received: %s', data);
+
       const message = JSON.parse(data);
       if (!message) {
         return;
@@ -43,6 +45,9 @@ function createWindow() {
 
       // Update Discord Rich Presence
       if (client) {
+        console.log('sending ' + message.song)
+        mainWindow.webContents.send('updateData', message)
+
         client.setActivity({
           details: message.song,
           state: "by " + message.artist,
@@ -50,6 +55,9 @@ function createWindow() {
             large_image: message.albumCover,
           },
         });
+        // console.log('sending' + message.song)
+        // mainWindow.webContents.send('updateData', message)
+
       }
     });
 
