@@ -24,7 +24,10 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <div className="sidebar">
+        sidebar
+      </div>
+      <header className="main-content">
         <h1>Now Playing</h1>
         <div>
           <h2>Song: {currentSong.song || 'No song playing'}</h2>
