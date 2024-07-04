@@ -3,6 +3,7 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const { WebSocketServer } = require('ws');
 const { EasyPresence } = require('easy-presence');
+//require('@electron/remote/main').initialize();
 
 let mainWindow;
 let wss;
@@ -13,12 +14,18 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    frame: false,
+    //frame: false,
+    titleBarStyle: "hidden",
+		vibrancy: "sidebar",
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
+      //enableRemoteModule: true,
     },
   });
+
+  mainWindow.setVibrancy('sidebar'); // Example: 'full-window'
+
 
   const startURL = app.isPackaged
     ? `file://${path.join(__dirname, '../build/index.html')}`
@@ -29,6 +36,7 @@ function createWindow() {
   });
 
   mainWindow.on('closed', () => (mainWindow = null));
+
 
   // Start WebSocket server
   wss = new WebSocketServer({ port: 3030 });

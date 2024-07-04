@@ -1,18 +1,37 @@
 .App {
   text-align: center;
   display: flex;
+  flex-direction: column;
   height: 100vh; /* Full viewport height */
 }
 
-.sidebar {
-  width: 25%; /* 25% width for the sidebar */
-  background-color: #f0f0f0; /* Example background color */
+.controls {
+  display: flex;
+}
+
+.control {
+  width: 12px;
+  height: 12px;
+  margin-left: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3); 
+}
+
+.title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px; /* Adjust height as needed */
+  padding: 0 10px;
+  background-color: #333; /* Example title bar background color */
+  color: #fff; /* Example text color */
+  -webkit-app-region: drag; /* Make the title bar draggable */
 }
 
 .main-content {
   flex: 1; /* Take up remaining space */
   background-color: #282c34;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,12 +41,10 @@
 
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.main-container {
+  display: flex;
+  flex: 1; /* Take up remaining space */
 }
-
-
 
 .App-header {
   background-color: #282c34;
@@ -40,15 +57,9 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.sidebar {
+  width: 25%; /* 25% width for the sidebar */
+  background-color: #f0f0f0; /* Example background color */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+

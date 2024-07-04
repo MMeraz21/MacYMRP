@@ -1,4 +1,7 @@
 const { contextBridge, ipcRenderer } = require('electron');
+//const remote = require('@electron/remote');
+
+
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
@@ -7,7 +10,11 @@ contextBridge.exposeInMainWorld('electron', {
     },
     removeListener: (channel, func) => {
       ipcRenderer.removeListener(channel, func);
-    }
-  }
+    },
+  },
+  // remote: {
+  //   getCurrentWindow: () => remote.getCurrentWindow(),
+  // },
 });
+
 

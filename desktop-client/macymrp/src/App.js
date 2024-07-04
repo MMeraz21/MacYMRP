@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
+//const { remote } = window.require('electron')
+
 
 function App() {
   const [currentSong, setCurrentSong] = useState({
@@ -22,11 +24,40 @@ function App() {
     };
   }, []);
 
+  //const { remote } = window.require('electron')
+
+  // function closeWindow() {
+  //   const window = window.electron.remote.getCurrentWindow();
+  //   window.close();
+  // }
+  
+  // function minimizeWindow() {
+  //   const window = window.electron.remote.getCurrentWindow();
+  //   window.minimize();
+  // }
+  
+  // function maximizeWindow() {
+  //   const window = window.electron.remote.getCurrentWindow();
+  //   if (!window.isMaximized()) {
+  //     window.maximize();
+  //   } else {
+  //     window.unmaximize();
+  //   }
+  // }
+
   return (
     <div className="App">
+
+      {/* <div className="title-bar">
+        <div className="controls">
+        </div>
+      </div> */}
+
+    <div className="main-container">
       <div className="sidebar">
         sidebar
       </div>
+
       <header className="main-content">
         <h1>Now Playing</h1>
         <div>
@@ -39,6 +70,7 @@ function App() {
           )}
         </div>
       </header>
+      </div>
     </div>
   );
 }
