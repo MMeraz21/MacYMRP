@@ -19,6 +19,7 @@ function createWindow() {
     minHeight: 400,
 		minWidth: 500,
     // frame: true,
+    show: false,
     titleBarStyle: "hidden",
 		vibrancy: "sidebar",
     webPreferences: {
@@ -45,6 +46,10 @@ function createWindow() {
   });
 
   mainWindow.on('closed', () => (mainWindow = null));
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+});
 
 
   // Start WebSocket server
@@ -85,6 +90,45 @@ function createWindow() {
 
 app.on('ready', () => {
   createWindow();
+
+  const trayIconPath = path.resolve(__dirname, 'trayIcon.png');
+  console.log('Tray icon path:', trayIconPath);   
+  
+  try {
+    tray = new Tray(trayIconPath);
+  } catch (error) {
+    console.error('Failed to load tray icon:', error);
+    app.quit();
+  }
+
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Show App',
+      click: function () {
+        mainWindow.show();
+      },
+    },
+    {
+      label: 'Quit',
+      click: function () {
+        app.quit();
+      },
+    },
+  ]);
+
+  tray.setToolTip('Your App Name');
+  tray.setContextMenu(contextMenu);
+
+  tray.on('click', () => {
+    if (mainWindow.isVisible()) {
+      mainWindow.hide();
+    } else {
+      mainWindow.show();
+    }
+  });
+
+  app.dock.hide();
+
 
   // Initialize EasyPresence client
   client = new EasyPresence("1182852142210494464");
