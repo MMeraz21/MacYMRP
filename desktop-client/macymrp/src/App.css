@@ -17,15 +17,15 @@ body {
 
 .main-content {
   flex: 1; /* Take up remaining space */
-  background-color: #282c34;
-  /* min-height: 100vh; */
+  background-color: rgba(255, 255, 255, 0.8); /* Use semi-transparent background for vibrancy */
+  backdrop-filter: blur(20px); /* Apply blur effect */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
-
+  color: black;
+  padding: 20px;
 }
 
 .main-container {
@@ -33,22 +33,16 @@ body {
   flex: 1; 
 }
 
-/* .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-} */
-
 .sidebar {
   inset: 0px;
   width: 150px; 
-  background-color: #f0f0f0; /* Example background color */
   position: relative;
+  background-color: rgba(255, 255, 255, 0.8); 
+  backdrop-filter: blur(20px); 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
 }
 
 #sidebar .shadow {
@@ -59,4 +53,37 @@ body {
 	top: 0px;
 	width: 3px;
 }
+
+/* Dark mode styling */
+@media (prefers-color-scheme: dark) {
+  body {
+    color: rgb(240, 240, 240);
+  }
+
+  .sidebar {
+    background-color: rgba(43, 43, 43, 0.8); /* Adjust color for dark mode */
+  }
+
+  .main-content {
+    background-color: rgba(35, 35, 35, 0.8); /* Adjust color for dark mode */
+    color: white;
+  }
+}
+
+/* Light mode styling */
+@media (prefers-color-scheme: light) {
+  body {
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .sidebar {
+    background-color: rgba(255, 255, 255, 0.8); /* Adjust color for light mode */
+  }
+
+  .main-content {
+    background-color: rgba(255, 255, 255, 0.8); /* Adjust color for light mode */
+    color: black;
+  }
+}
+
 

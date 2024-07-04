@@ -1,5 +1,5 @@
 // electron.js
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Tray, Menu } = require('electron');
 const path = require('path');
 const { WebSocketServer } = require('ws');
 const { EasyPresence } = require('easy-presence');
@@ -9,13 +9,16 @@ const tint = require("electron-tinted-with-sidebar");
 let mainWindow;
 let wss;
 let client;
+let tray;
 console.log("hiii from electron.js")
 
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    //frame: false,
+    minHeight: 400,
+		minWidth: 500,
+    // frame: true,
     titleBarStyle: "hidden",
 		vibrancy: "sidebar",
     webPreferences: {
@@ -25,9 +28,9 @@ function createWindow() {
     },
   });
 
-  // mainWindow.setVibrancy('sidebar'); // Example: 'full-window'
-	tint.setWindowAnimationBehavior(mainWindow.getNativeWindowHandle(), true);
-	tint.setWindowLayout(mainWindow.getNativeWindowHandle(), 200, 52);
+  mainWindow.setVibrancy('sidebar'); // Example: 'full-window'
+	// tint.setWindowAnimationBehavior(mainWindow.getNativeWindowHandle(), true);
+	// tint.setWindowLayout(mainWindow.getNativeWindowHandle(), 200, 52);
 
   mainWindow.setWindowButtonPosition({ x: 19, y: 18 });
 
