@@ -3,6 +3,7 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const { WebSocketServer } = require('ws');
 const { EasyPresence } = require('easy-presence');
+const tint = require("electron-tinted-with-sidebar");
 //require('@electron/remote/main').initialize();
 
 let mainWindow;
@@ -24,7 +25,12 @@ function createWindow() {
     },
   });
 
-  mainWindow.setVibrancy('sidebar'); // Example: 'full-window'
+  // mainWindow.setVibrancy('sidebar'); // Example: 'full-window'
+	tint.setWindowAnimationBehavior(mainWindow.getNativeWindowHandle(), true);
+	tint.setWindowLayout(mainWindow.getNativeWindowHandle(), 200, 52);
+
+  mainWindow.setWindowButtonPosition({ x: 19, y: 18 });
+
 
 
   const startURL = app.isPackaged

@@ -56,6 +56,7 @@ function App() {
     <div className="main-container">
       <div className="sidebar">
         sidebar
+        <div class="shadow"></div>
       </div>
 
       <header className="main-content">
