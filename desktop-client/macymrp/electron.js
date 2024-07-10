@@ -4,6 +4,7 @@ const path = require('path');
 const { WebSocketServer } = require('ws');
 const { EasyPresence } = require('easy-presence');
 const tint = require("electron-tinted-with-sidebar");
+const { menubar} = require("menubar")
 //require('@electron/remote/main').initialize();
 
 let mainWindow;
@@ -11,9 +12,43 @@ let wss;
 let client;
 let tray;
 console.log("hiii from electron.js")
+//app.commandLine.appendSwitch('apple-internal', 'LSUIElement'); // Set LSUIElement to hide from dock
+
+console.log(process.env.APP_URL)
+
+const startURL = app.isPackaged
+? `file://${path.join(__dirname, '../build/index.html')}`
+: 'http://localhost:3000';
+
+// const mb = menubar({
+//   index: startURL,
+//   // browserWindow: {
+//   //   //icon: path.resolve(__dirname, 'trayIcon.png'),
+//   //   width: 800,
+//   //   height: 600,
+//   //   minHeight: 400,
+// 	// 	minWidth: 500,
+//   //   // frame: true,
+//   //   show: false,
+//   //   titleBarStyle: "hidden",
+// 	// 	vibrancy: "sidebar",
+//   //   webPreferences: {
+//   //     preload: path.join(__dirname, 'preload.js'),
+//   //     contextIsolation: true,
+//   //     //enableRemoteModule: true,
+//   //   }
+//   // }
+// });
+
+// mb.on('ready', () => {
+//   console.log('app is ready');
+//   // your app code here
+// });
+
 
 function createWindow() {
   mainWindow = new BrowserWindow({
+    icon: path.resolve(__dirname, 'trayIcon.png'),
     width: 800,
     height: 600,
     minHeight: 400,
@@ -29,7 +64,7 @@ function createWindow() {
     },
   });
 
-  mainWindow.setVibrancy('sidebar'); // Example: 'full-window'
+  //mainWindow.setVibrancy('sidebar'); // Example: 'full-window'
 	// tint.setWindowAnimationBehavior(mainWindow.getNativeWindowHandle(), true);
 	// tint.setWindowLayout(mainWindow.getNativeWindowHandle(), 200, 52);
 
@@ -37,9 +72,11 @@ function createWindow() {
 
 
 
-  const startURL = app.isPackaged
-    ? `file://${path.join(__dirname, '../build/index.html')}`
-    : 'http://localhost:3000';
+  // const startURL = app.isPackaged
+  //   ? `file://${path.join(__dirname, '../build/index.html')}`
+  //   : 'http://localhost:3000';
+
+console.log(startURL)
 
   mainWindow.loadURL(startURL).catch(err => {
     console.error('Failed to load URL:', startURL, err);
