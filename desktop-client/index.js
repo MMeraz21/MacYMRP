@@ -1,3 +1,4 @@
+console.log("hi from index.js")
 import { WebSocketServer } from "ws";
 import { EasyPresence } from "easy-presence";
 

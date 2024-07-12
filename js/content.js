@@ -4,6 +4,7 @@ let ytmusicPlayerBar
 let webSocket = null;
 let currData = {};
 let currSong = ``;
+let prevTime = '';
 
 let keepAliveIntervalId = null;
 
@@ -127,12 +128,16 @@ function getInfo() {
                 time = ytmusicPlayerBar.querySelector(".time-info").innerText
             }
 
+            let isPlaying = time !== prevTime;
+            prevTime = time;
+
             let info = {
                 song: title,
                 artist: artist,
                 albumName: albumName,
                 albumCover: albumCover,
-                time: time
+                time: time,
+                playing: isPlaying
             }
             currSong = info.song;
             currData = info;

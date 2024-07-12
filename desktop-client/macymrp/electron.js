@@ -12,38 +12,12 @@ let wss;
 let client;
 let tray;
 console.log("hiii from electron.js")
-//app.commandLine.appendSwitch('apple-internal', 'LSUIElement'); // Set LSUIElement to hide from dock
 
 console.log(process.env.APP_URL)
 
 const startURL = app.isPackaged
 ? `file://${path.join(__dirname, '../build/index.html')}`
 : 'http://localhost:3000';
-
-// const mb = menubar({
-//   index: startURL,
-//   // browserWindow: {
-//   //   //icon: path.resolve(__dirname, 'trayIcon.png'),
-//   //   width: 800,
-//   //   height: 600,
-//   //   minHeight: 400,
-// 	// 	minWidth: 500,
-//   //   // frame: true,
-//   //   show: false,
-//   //   titleBarStyle: "hidden",
-// 	// 	vibrancy: "sidebar",
-//   //   webPreferences: {
-//   //     preload: path.join(__dirname, 'preload.js'),
-//   //     contextIsolation: true,
-//   //     //enableRemoteModule: true,
-//   //   }
-//   // }
-// });
-
-// mb.on('ready', () => {
-//   console.log('app is ready');
-//   // your app code here
-// });
 
 
 function createWindow() {
@@ -89,8 +63,8 @@ console.log(startURL)
 });
 
 
-  // Start WebSocket server
   wss = new WebSocketServer({ port: 3030 });
+
   wss.on('connection', function connection(ws) {
     ws.on('error', console.error);
 
@@ -103,22 +77,25 @@ console.log(startURL)
       }
       console.log(message);
 
-      // Update Discord Rich Presence
-      if (client) {
-        console.log('sending ' + message.song)
+      if(client){
+        //console.log('sending ' + message.song)
         mainWindow.webContents.send('updateData', message)
 
-        client.setActivity({
-          details: message.song,
-          state: "by " + message.artist,
-          assets: {
-            large_image: message.albumCover,
-          },
-        });
-        // console.log('sending' + message.song)
-        // mainWindow.webContents.send('updateData', message)
-
+        if(message.playing){
+          console.log("updating withh ", message)
+          client.setActivity({
+            details: message.song,
+            state: "by " + message.artist,
+            assets: {
+              large_image: message.albumCover,
+            },
+          });
+        }else{
+          //client.setActivity({})
+          client.setActivity(undefined)
+        }
       }
+
     });
 
     ws.send('Connected to WebSocket server');
@@ -166,11 +143,8 @@ app.on('ready', () => {
 
   app.dock.hide();
 
-
-  // Initialize EasyPresence client
   client = new EasyPresence("1182852142210494464");
 
-  // Event listeners for EasyPresence
   client.on("connected", () => {
     console.log("Connected to Discord");
   });
@@ -178,6 +152,7 @@ app.on('ready', () => {
   client.on("activityUpdate", (activity) => {
     console.log("Updated Discord Rich Presence");
   });
+
 });
 
 app.on('window-all-closed', () => {

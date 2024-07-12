@@ -10,10 +10,19 @@ function App() {
     albumCover: ''
   });
 
+  const[isPlaying, setIsPlaying] = useState(false);
+
   useEffect(() => {
     const handleUpdateData = (event, data) => {
       if (data) {
-        setCurrentSong(data);
+        setIsPlaying(data.playing)
+        setCurrentSong({
+          song: data.song,
+          artist: data.artist,
+          albumName: data.albumName,
+          albumCover: data.albumCover,
+          time: data.time
+        });
       }
     };
 
@@ -60,20 +69,24 @@ function App() {
       </div>
 
       <header className="main-content">
-        <h1>Now Playing</h1>
-        <div>
-          <h2>Song: {currentSong.song || 'No song playing'}</h2>
-          <h3>Artist: {currentSong.artist || 'Unknown artist'}</h3>
-          {currentSong.albumCover ? (
-            <img src={currentSong.albumCover} alt="Album Cover" />
+          <h1>Now Playing</h1>
+          {!isPlaying ? (
+            <p>Paused</p>
           ) : (
-            <p>No album cover available</p>
+            <div>
+              <h2>Song: {currentSong.song || 'No song playing'}</h2>
+              <h3>Artist: {currentSong.artist || 'Unknown artist'}</h3>
+              {currentSong.albumCover ? (
+                <img src={currentSong.albumCover} alt="Album Cover" />
+              ) : (
+                <p>No album cover available</p>
+              )}
+            </div>
           )}
-        </div>
-      </header>
+        </header>
 
       </div>
-      
+
     </div>
   );
 }

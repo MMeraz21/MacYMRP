@@ -10,6 +10,11 @@
     "productName": "My Electron App",
     "directories": {
       "output": "dist"
+    },
+    "mac":{
+      "estendInfo": {
+        "LSUIElement": true
+      }
     }
   },
   "dependencies": {
